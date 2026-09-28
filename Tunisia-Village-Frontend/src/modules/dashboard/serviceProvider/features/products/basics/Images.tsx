@@ -24,7 +24,7 @@ export default function Images() {
         <span>&gt;</span>
         <span>أ-الأساسيات</span>
         <span>&gt;</span>
-        <span className="text-[#334bb1]">4.أ.الصور</span>
+        <span className="text-primary">4.أ.الصور</span>
       </div>
 
       {/* Tab Selectors */}
@@ -33,11 +33,11 @@ export default function Images() {
           onClick={() => setActiveTab('guidelines')}
           className={`flex-1 py-4 flex items-center justify-center gap-2 font-black transition-all ${
             activeTab === 'guidelines'
-              ? 'bg-[#1d275f] text-white'
+              ? 'bg-[hsl(var(--primary))] text-white'
               : 'bg-white text-gray-600 hover:bg-gray-50'
           }`}
         >
-          <Lightbulb size={18} className={activeTab === 'guidelines' ? "text-amber-400 fill-amber-400" : ""} />
+          <Lightbulb size={18} className={activeTab === 'guidelines' ? "text-primarymber-400 fill-amber-400" : ""} />
           <span>إرشادات لتجربة أفضل</span>
         </button>
 
@@ -45,7 +45,7 @@ export default function Images() {
           onClick={() => setActiveTab('upload')}
           className={`flex-1 py-4 flex items-center justify-center gap-2 font-black transition-all ${
             activeTab === 'upload'
-              ? 'bg-[#1d275f] text-white'
+              ? 'bg-[hsl(var(--primary))] text-white'
               : 'bg-white text-gray-600 hover:bg-gray-50'
           }`}
         >
@@ -59,36 +59,36 @@ export default function Images() {
           {/* Rules / DOs & DONTs Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* DOs (Right Card in RTL) */}
-            <div className="border border-blue-200 bg-white rounded-3xl p-6 shadow-xs space-y-4">
+            <div className="border border-primary/30 bg-white rounded-3xl p-6 shadow-xs space-y-4">
               <h3 className="text-[16px] font-black text-gray-800 flex items-center gap-2">
-                <CheckCircle size={18} className="text-blue-500" />
+                <CheckCircle size={18} className="text-primary" />
                 يمكنك إتباع الآتي للحصول على تجربة جيدة
               </h3>
               <ul className="space-y-3.5 pr-2">
                 <li className="text-xs text-gray-500 font-bold leading-relaxed flex items-start gap-2">
-                  <span className="text-[#334bb1]">⭐</span>
+                  <span className="text-primary">⭐</span>
                   <span>يجب أن يتضمن 6+ صور على الأقل و أن تستخدم فقط صورك الخاصة</span>
                 </li>
                 <li className="text-xs text-gray-500 font-bold leading-relaxed flex items-start gap-2">
-                  <span className="text-[#334bb1]">⭐</span>
+                  <span className="text-primary">⭐</span>
                   <span>أضف صوراً صريحة للمسافر</span>
                 </li>
               </ul>
             </div>
 
             {/* DONTs (Left Card in RTL) */}
-            <div className="border border-amber-200 bg-white rounded-3xl p-6 shadow-xs space-y-4">
+            <div className="border border-accent/30 bg-card rounded-3xl p-6 shadow-xs space-y-4">
               <h3 className="text-[16px] font-black text-gray-800 flex items-center gap-2">
-                <AlertTriangle size={18} className="text-amber-500" />
+                <AlertTriangle size={18} className="text-accent" />
                 عليك تجنب الآتي للحصول على تجربة أفضل
               </h3>
               <ul className="space-y-3.5 pr-2">
                 <li className="text-xs text-gray-500 font-bold leading-relaxed flex items-start gap-2">
-                  <span className="text-amber-500">⚠️</span>
+                  <span className="text-accent">⚠️</span>
                   <span>تجنب إستخدام لقطات الشاشة أو العلامات المائية أو الصور المجمعة.</span>
                 </li>
                 <li className="text-xs text-gray-500 font-bold leading-relaxed flex items-start gap-2">
-                  <span className="text-amber-500">⚠️</span>
+                  <span className="text-accent">⚠️</span>
                   <span>تجنب إستخدام صوراً ضبابية أو داكنة</span>
                 </li>
               </ul>
@@ -96,7 +96,7 @@ export default function Images() {
           </div>
 
           {/* Carousel Preview Area */}
-          <div className="border border-blue-150 rounded-3xl p-6 bg-white shadow-xs space-y-6">
+          <div className="border border-border rounded-3xl p-6 bg-card shadow-xs space-y-6">
             <div className="space-y-1">
               <h3 className="text-lg font-black text-gray-900">ما هو الموجود في صورة الترحيب؟</h3>
               <p className="text-sm text-gray-400 font-semibold leading-relaxed">
@@ -126,7 +126,7 @@ export default function Images() {
                     key={dot}
                     onClick={() => setCurrentSlide(dot)}
                     className={`w-2.5 h-2.5 rounded-full cursor-pointer transition-all ${
-                      currentSlide === dot ? "bg-[#334bb1] scale-110" : "bg-gray-200"
+                      currentSlide === dot ? "bg-primary scale-110" : "bg-gray-200"
                     }`}
                   />
                 ))}
@@ -145,7 +145,7 @@ export default function Images() {
         </div>
       ) : (
         <div className="border-2 border-dashed border-gray-250 rounded-3xl p-16 text-center bg-white">
-          <div className="w-16 h-16 bg-blue-50 text-[#334bb1] rounded-2xl flex items-center justify-center mx-auto mb-4 text-xl">
+          <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-4 text-xl">
             📥
           </div>
           <h3 className="text-lg font-black text-gray-800 mb-2">رفع صور جديدة</h3>

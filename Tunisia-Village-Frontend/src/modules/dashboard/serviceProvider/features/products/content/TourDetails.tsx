@@ -240,7 +240,7 @@ export default function TourDetails() {
         <span>&gt;</span>
         <span>ب-محتوى المنتج</span>
         <span>&gt;</span>
-        <span className="text-[#334bb1]">2.ب.تفاصيل الجولة</span>
+        <span className="text-primary">2.ب.تفاصيل الجولة</span>
       </div>
 
       {/* Title Header */}
@@ -253,7 +253,7 @@ export default function TourDetails() {
         </div>
         <button
           onClick={toggleAllDays}
-          className="text-xs font-bold text-[#334bb1] bg-blue-50/50 hover:bg-blue-50 px-4 py-2.5 rounded-xl border border-blue-100 transition-colors"
+          className="text-xs font-bold text-primary bg-primary/5 hover:bg-primary/10 px-4 py-2.5 rounded-xl border border-primary/20 transition-colors"
         >
           ضغط تفاصيل كل الأيام
         </button>
@@ -264,14 +264,14 @@ export default function TourDetails() {
         {days.map((day, index) => {
           const isExpanded = expandedDays[day.id];
           return (
-            <div key={day.id} className="border border-blue-150 rounded-3xl bg-white shadow-xs overflow-hidden transition-all duration-300">
+            <div key={day.id} className="border border-border rounded-3xl bg-white shadow-xs overflow-hidden transition-all duration-300">
               {/* Accordion Trigger */}
               <div
                 onClick={() => toggleDay(day.id)}
                 className="p-5 px-6 bg-slate-50/30 border-b border-slate-50 flex items-center justify-between cursor-pointer select-none"
               >
                 <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-500 shadow-2xs">
+                  <div className="w-10 h-10 bg-amber-50 rounded-2xl flex items-center justify-center text-primarymber-500 shadow-2xs">
                     <Sun size={20} className="fill-amber-500/10 animate-spin-slow" />
                   </div>
                   <div className="space-y-0.5">
@@ -310,7 +310,7 @@ export default function TourDetails() {
                       value={day.title}
                       onChange={(e) => handleDayTitleChange(day.id, e.target.value)}
                       placeholder="على سبيل المثال: مصر - الفيوم - الشلالات"
-                      className="w-full py-3.5 pr-4 pl-10 bg-white border border-gray-200 rounded-2xl text-sm focus:outline-none focus:ring-1 focus:ring-[#334bb1] font-bold text-gray-850 text-right shadow-2xs hover:border-gray-300 transition-colors"
+                      className="w-full py-3.5 pr-4 pl-10 bg-white border border-gray-200 rounded-2xl text-sm focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))] font-bold text-gray-850 text-right shadow-2xs hover:border-gray-300 transition-colors"
                     />
                   </div>
 
@@ -334,14 +334,14 @@ export default function TourDetails() {
                             >
                               <X size={12} />
                             </button>
-                            <span className="block font-black text-xs text-[#334bb1] mb-1">{attr.name}</span>
+                            <span className="block font-black text-xs text-primary mb-1">{attr.name}</span>
                             <p className="text-[10px] text-gray-400 font-bold leading-normal mb-1.5">{attr.description}</p>
                             <div className="flex items-center gap-2 text-[9px] text-gray-400 font-black">
                               <span className="bg-white border border-gray-200 px-1.5 py-0.5 rounded-md">
                                 {attr.duration} دقيقة
                               </span>
                               {attr.passBy && (
-                                <span className="bg-amber-50 text-amber-600 px-1.5 py-0.5 rounded-md">
+                                <span className="bg-amber-50 text-primarymber-600 px-1.5 py-0.5 rounded-md">
                                   مرور سريع
                                 </span>
                               )}
@@ -352,7 +352,7 @@ export default function TourDetails() {
 
                       <button
                         onClick={() => openAttractionModal(day.id)}
-                        className="w-full py-3 border-2 border-dashed border-blue-100 rounded-2xl text-xs font-black text-[#334bb1] hover:bg-blue-50/20 hover:border-blue-200 transition-colors flex items-center justify-center gap-1.5"
+                        className="w-full py-3 border-2 border-dashed border-primary/20 rounded-2xl text-xs font-black text-primary hover:bg-primary/10/20 hover:border-primary/30 transition-colors flex items-center justify-center gap-1.5"
                       >
                         <Plus size={14} />
                         <span>أضف عامل جذب</span>
@@ -382,7 +382,7 @@ export default function TourDetails() {
 
                       <button
                         onClick={() => openMealModal(day.id)}
-                        className="w-full py-3 border-2 border-dashed border-blue-100 rounded-2xl text-xs font-black text-[#334bb1] hover:bg-blue-50/20 hover:border-blue-200 transition-colors flex items-center justify-center gap-1.5"
+                        className="w-full py-3 border-2 border-dashed border-primary/20 rounded-2xl text-xs font-black text-primary hover:bg-primary/10/20 hover:border-primary/30 transition-colors flex items-center justify-center gap-1.5"
                       >
                         <Plus size={14} />
                         <span>أضف وجبة</span>
@@ -412,7 +412,7 @@ export default function TourDetails() {
 
                       <button
                         onClick={() => openAccommodationModal(day.id)}
-                        className="w-full py-3 border-2 border-dashed border-blue-100 rounded-2xl text-xs font-black text-[#334bb1] hover:bg-blue-50/20 hover:border-blue-200 transition-colors flex items-center justify-center gap-1.5"
+                        className="w-full py-3 border-2 border-dashed border-primary/20 rounded-2xl text-xs font-black text-primary hover:bg-primary/10/20 hover:border-primary/30 transition-colors flex items-center justify-center gap-1.5"
                       >
                         <Plus size={14} />
                         <span>إضافة سكن</span>
@@ -430,13 +430,13 @@ export default function TourDetails() {
       <div className="max-w-4xl flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-gray-100">
         <button
           onClick={handleAddDay}
-          className="w-full sm:w-fit py-3 px-6 border border-[#334bb1] rounded-2xl text-xs font-black text-[#334bb1] hover:bg-blue-50/30 transition-all flex items-center justify-center gap-1.5"
+          className="w-full sm:w-fit py-3 px-6 border border-[hsl(var(--primary))] rounded-2xl text-xs font-black text-primary hover:bg-primary/10/30 transition-all flex items-center justify-center gap-1.5"
         >
           <Plus size={14} />
           <span>أضف يوم جديد</span>
         </button>
 
-        <ReusableButton variant="primary" onClick={() => alert('تم حفظ تفاصيل الجولة بنجاح!')}>
+        <ReusableButton variant="secondary" onClick={() => alert('تم حفظ تفاصيل الجولة بنجاح!')}>
           الحفظ و الإستمرار
         </ReusableButton>
       </div>
@@ -468,7 +468,7 @@ export default function TourDetails() {
                     onChange={(e) => setAttractionName(e.target.value)}
                     placeholder="على سبيل المثال: برج إيفيل، باريس..."
                     required
-                    className="w-full py-3 pr-4 pl-10 bg-white border border-gray-250 rounded-2xl text-xs focus:outline-none focus:ring-1 focus:ring-[#334bb1] font-bold text-gray-800 text-right"
+                    className="w-full py-3 pr-4 pl-10 bg-white border border-gray-250 rounded-2xl text-xs focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))] font-bold text-gray-800 text-right"
                   />
                   <Search size={16} className="absolute left-3.5 top-3.5 text-gray-400" />
                 </div>
@@ -486,7 +486,7 @@ export default function TourDetails() {
                   placeholder="أدخل وصفاً مفصلاً لعامل الجذب والأنشطة..."
                   maxLength={1000}
                   rows={4}
-                  className="w-full p-4 bg-white border border-gray-250 rounded-2xl text-xs focus:outline-none focus:ring-1 focus:ring-[#334bb1] font-bold text-gray-800 text-right leading-relaxed"
+                  className="w-full p-4 bg-white border border-gray-250 rounded-2xl text-xs focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))] font-bold text-gray-800 text-right leading-relaxed"
                 />
                 <div className="flex justify-end text-[10px] text-gray-400 font-bold">
                   {1000 - attractionDesc.length} حرف متبقية.
@@ -502,13 +502,13 @@ export default function TourDetails() {
                     value={durationValue}
                     onChange={(e) => setDurationValue(Number(e.target.value))}
                     disabled={passBy}
-                    className="w-24 py-2.5 px-3 bg-white border border-gray-250 rounded-xl text-center text-xs font-black text-gray-850 focus:outline-none focus:ring-1 focus:ring-[#334bb1] disabled:bg-gray-50 disabled:text-gray-300"
+                    className="w-24 py-2.5 px-3 bg-white border border-gray-250 rounded-xl text-center text-xs font-black text-gray-850 focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))] disabled:bg-gray-50 disabled:text-gray-300"
                   />
                   <select
                     value={durationUnit}
                     onChange={(e) => setDurationUnit(e.target.value as 'minutes' | 'hours')}
                     disabled={passBy}
-                    className="py-2.5 px-3 bg-white border border-gray-250 rounded-xl text-xs font-bold text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#334bb1] disabled:bg-gray-50 disabled:text-gray-300"
+                    className="py-2.5 px-3 bg-white border border-gray-250 rounded-xl text-xs font-bold text-gray-700 focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))] disabled:bg-gray-50 disabled:text-gray-300"
                   >
                     <option value="minutes">دقائق</option>
                     <option value="hours">ساعات</option>
@@ -519,7 +519,7 @@ export default function TourDetails() {
                       type="checkbox"
                       checked={passBy}
                       onChange={(e) => setPassBy(e.target.checked)}
-                      className="w-4 h-4 text-[#334bb1] border-gray-300 focus:ring-[#334bb1] accent-[#334bb1]"
+                      className="w-4 h-4 text-primary border-gray-300 focus:ring-[hsl(var(--primary))] accent-[hsl(var(--primary))]"
                     />
                     <span className="text-xs font-black text-gray-655">مرور دون توقف.</span>
                   </label>
@@ -536,7 +536,7 @@ export default function TourDetails() {
                       name="admission"
                       checked={admission === 'yes'}
                       onChange={() => setAdmission('yes')}
-                      className="w-4 h-4 text-[#334bb1] accent-[#334bb1]"
+                      className="w-4 h-4 text-primary accent-[hsl(var(--primary))]"
                     />
                     <span className="text-xs font-bold text-gray-700">نعم</span>
                   </label>
@@ -546,7 +546,7 @@ export default function TourDetails() {
                       name="admission"
                       checked={admission === 'no'}
                       onChange={() => setAdmission('no')}
-                      className="w-4 h-4 text-[#334bb1] accent-[#334bb1]"
+                      className="w-4 h-4 text-primary accent-[hsl(var(--primary))]"
                     />
                     <span className="text-xs font-bold text-gray-700">لا</span>
                   </label>
@@ -556,7 +556,7 @@ export default function TourDetails() {
                       name="admission"
                       checked={admission === 'free'}
                       onChange={() => setAdmission('free')}
-                      className="w-4 h-4 text-[#334bb1] accent-[#334bb1]"
+                      className="w-4 h-4 text-primary accent-[hsl(var(--primary))]"
                     />
                     <span className="text-xs font-bold text-gray-700">غير متوفر (الدخول مجاني)</span>
                   </label>
@@ -593,7 +593,7 @@ export default function TourDetails() {
                 <select
                   value={mealType}
                   onChange={(e) => setMealType(e.target.value)}
-                  className="w-full py-3 px-4 bg-white border border-gray-250 rounded-xl text-xs font-bold text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#334bb1]"
+                  className="w-full py-3 px-4 bg-white border border-gray-250 rounded-xl text-xs font-bold text-gray-700 focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))]"
                 >
                   <option value="فطور">فطور</option>
                   <option value="غداء">غداء</option>
@@ -608,7 +608,7 @@ export default function TourDetails() {
                   value={mealDetails}
                   onChange={(e) => setMealDetails(e.target.value)}
                   placeholder="مثال: وجبة نباتية، أسماك طازجة..."
-                  className="w-full py-3 px-4 bg-white border border-gray-250 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#334bb1] font-bold text-gray-800 text-right"
+                  className="w-full py-3 px-4 bg-white border border-gray-250 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))] font-bold text-gray-800 text-right"
                 />
               </div>
               <div className="pt-4 border-t border-gray-150 flex justify-end gap-3">
@@ -640,7 +640,7 @@ export default function TourDetails() {
                 <select
                   value={accommodationType}
                   onChange={(e) => setAccommodationType(e.target.value)}
-                  className="w-full py-3 px-4 bg-white border border-gray-250 rounded-xl text-xs font-bold text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#334bb1]"
+                  className="w-full py-3 px-4 bg-white border border-gray-250 rounded-xl text-xs font-bold text-gray-700 focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))]"
                 >
                   <option value="فندق">فندق</option>
                   <option value="مخيم / خيمة">مخيم / خيمة</option>
@@ -657,7 +657,7 @@ export default function TourDetails() {
                   onChange={(e) => setAccommodationName(e.target.value)}
                   placeholder="مثال: فندق أوبروي الفيوم..."
                   required
-                  className="w-full py-3 px-4 bg-white border border-gray-250 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#334bb1] font-bold text-gray-800 text-right"
+                  className="w-full py-3 px-4 bg-white border border-gray-250 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))] font-bold text-gray-800 text-right"
                 />
               </div>
               <div className="pt-4 border-t border-gray-150 flex justify-end gap-3">

@@ -9,7 +9,7 @@ import { navItems } from "@/src/shared/lib/consts/navigation";
 
 export default function NavBarFeature() {
   return (
-    <div className="px-5 bg-[#F5F5F5]">
+    <div className="px-6 py-1.5 bg-card/90 backdrop-blur-md border-b border-border/40 sticky top-0 z-50 transition-all">
       <div className="flex justify-between items-center ">
         <Logo />
         <div className="flex gap-2 items-center">

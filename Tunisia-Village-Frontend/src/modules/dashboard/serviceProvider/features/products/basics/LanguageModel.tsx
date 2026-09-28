@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import ReusableButton from '@/src/shared/components/common/Buttons/ReusableButton';
 
 export default function LanguageModel() {
   const [langPreference, setLangPreference] = useState('manual');
@@ -110,9 +111,9 @@ export default function LanguageModel() {
 
         {/* Save Button */}
         <div className="pt-6">
-          <button className="bg-[#1d275f] hover:bg-[#151c47] text-white font-extrabold py-3.5 px-8 rounded-2xl shadow-lg active:scale-95 transition-all text-sm cursor-pointer">
+          <ReusableButton variant="secondary">
             الحفظ و الإستمرار
-          </button>
+          </ReusableButton>
         </div>
       </div>
     </div>

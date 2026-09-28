@@ -18,9 +18,9 @@ export default function ReusableButton({
   const baseStyle = "font-extrabold py-3.5 px-8 rounded-2xl shadow-sm transition-all duration-200 active:scale-95 text-sm cursor-pointer flex items-center justify-center gap-2";
   
   const variants = {
-    primary: "bg-[#1d275f] hover:bg-[#151c47] text-white hover:shadow-md hover:shadow-indigo-900/10",
-    secondary: "bg-orange-500 hover:bg-orange-600 text-white hover:shadow-md hover:shadow-orange-500/10",
-    outline: "bg-white border border-gray-250 text-gray-700 hover:bg-gray-50"
+    primary: "bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-md hover:shadow-primary/10",
+    secondary: "bg-accent hover:bg-accent/90 text-accent-foreground hover:shadow-md hover:shadow-accent/10",
+    outline: "bg-card border border-border text-foreground hover:bg-muted"
   };
 
   return (

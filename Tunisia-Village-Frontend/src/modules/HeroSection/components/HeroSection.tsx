@@ -17,10 +17,10 @@ export const HeroSection: React.FC = () => {
           وخلق فرص عمل، وتمكين حياة الناس.
         </p>
         <div className="flex gap-4 justify-center flex-wrap animate-fade-in-up" style={{ animationDelay: '0.3s', animationFillMode: 'both', animationDuration: '0.7s' }}>
-          <button className="bg-[#008767] hover:bg-[#00785a] text-white rounded-[32px] px-8 py-3.5 text-[16px] font-bold transition-all shadow-lg">
+          <button className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 py-3.5 text-[16px] font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 duration-200 cursor-pointer">
             احسب الأثر
           </button>
-          <button className="bg-white hover:bg-gray-50 text-[#008767] rounded-[32px] px-8 py-3.5 text-[16px] font-bold transition-all shadow-lg">
+          <button className="bg-card hover:bg-muted text-primary border border-primary/20 rounded-full px-8 py-3.5 text-[16px] font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 duration-200 cursor-pointer">
             احجز تجربة الان
           </button>
         </div>

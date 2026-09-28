@@ -35,7 +35,7 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
   };
 
   return (
-    <header className="w-full bg-white border-b border-gray-150 sticky top-0 z-50 shadow-sm" dir="rtl">
+    <header className="w-full bg-card border-b border-border sticky top-0 z-50 shadow-xs transition-all duration-normal" dir="rtl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
@@ -44,14 +44,14 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
             {/* Mobile Menu Toggle */}
             <button 
               onClick={onMenuToggle}
-              className="lg:hidden p-2 rounded-xl text-gray-500 hover:bg-gray-150 transition-colors"
+              className="lg:hidden p-2 rounded-xl text-muted-foreground hover:bg-muted transition-colors"
             >
               <Menu size={22} />
             </button>
 
             {/* Logo */}
             <Link href="/dashboard" className="flex items-center gap-3 active:scale-95 transition-transform">
-              <div className="w-12 h-12 relative flex items-center justify-center bg-[#eefaf6] rounded-2xl overflow-hidden border border-[#008767]/10">
+              <div className="w-12 h-12 relative flex items-center justify-center bg-primary/10 rounded-2xl overflow-hidden border border-primary/20">
                 <Image 
                   src="/imgs/logo.png" 
                   alt="Anas Logo" 
@@ -60,7 +60,7 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
                   className="object-contain" 
                 />
               </div>
-              <span className="text-xl font-black text-gray-900 tracking-wide">أنس</span>
+              <span className="text-xl font-black text-foreground tracking-wide font-heading">أنس</span>
             </Link>
           </div>
 
@@ -72,10 +72,10 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
                 <Link
                   key={item.id}
                   href={item.sidebarSections && item.sidebarSections.length > 0 ? item.sidebarSections[0].items[0].path : item.path}
-                  className={`px-4 py-2.5 rounded-2xl text-[15px] font-extrabold transition-all duration-250 whitespace-nowrap active:scale-[0.98] ${
+                  className={`px-4 py-2.5 rounded-2xl text-[15px] font-extrabold transition-all duration-200 whitespace-nowrap active:scale-[0.98] ${
                     isActive
-                      ? 'bg-[#dbe4ff] text-[#334bb1] shadow-sm shadow-[#334bb1]/5'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                      ? 'bg-primary/10 text-primary shadow-sm shadow-primary/5'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                   }`}
                 >
                   {item.label}
@@ -86,7 +86,7 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
             {/* Logout Tab */}
             <button
               onClick={handleLogout}
-              className="px-4 py-2.5 rounded-2xl text-[15px] font-extrabold text-red-600 hover:text-red-700 hover:bg-red-50 transition-all duration-250 whitespace-nowrap active:scale-[0.98] cursor-pointer flex items-center gap-2"
+              className="px-4 py-2.5 rounded-2xl text-[15px] font-extrabold text-destructive hover:text-destructive/90 hover:bg-destructive/10 transition-all duration-200 whitespace-nowrap active:scale-[0.98] cursor-pointer flex items-center gap-2"
             >
               <LogOut size={16} />
               <span>تسجيل الخروج</span>
@@ -100,20 +100,20 @@ export default function Navbar({ onMenuToggle }: NavbarProps) {
               <input
                 type="text"
                 placeholder="بحث..."
-                className="w-56 py-2.5 pr-10 pl-4 bg-gray-150/75 border border-transparent rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#008767] focus:bg-white focus:border-transparent transition-all placeholder-gray-400"
+                className="w-56 py-2.5 pr-10 pl-4 bg-muted border border-border/80 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:bg-card focus:border-transparent transition-all placeholder-muted-foreground text-foreground"
               />
-              <div className="absolute right-3.5 text-gray-400">
+              <div className="absolute right-3.5 text-muted-foreground">
                 <Search size={18} />
               </div>
             </div>
 
             {/* Mobile Search Button */}
-            <button className="md:hidden p-2.5 rounded-xl bg-gray-50 text-gray-500 hover:bg-gray-100 transition-colors">
+            <button className="md:hidden p-2.5 rounded-xl bg-muted text-muted-foreground hover:bg-muted/80 transition-colors">
               <Search size={20} />
             </button>
 
             {/* User Profile / Notification Placeholder */}
-            <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-150 transition-colors cursor-pointer">
+            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-muted/80 transition-colors cursor-pointer">
               <User size={20} />
             </div>
           </div>

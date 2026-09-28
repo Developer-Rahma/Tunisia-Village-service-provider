@@ -62,12 +62,12 @@ export default function Classification() {
         <span>&gt;</span>
         <span>أ-الأساسيات</span>
         <span>&gt;</span>
-        <span className="text-[#334bb1]">2.أ.التصنيف</span>
+        <span className="text-primary">2.أ.التصنيف</span>
       </div>
 
       {/* Primary Header Card */}
-      <div className="border border-blue-200 bg-white rounded-3xl p-5 shadow-xs flex items-start gap-4">
-        <Info className="text-blue-500 shrink-0 mt-1" size={24} />
+      <div className="border border-primary/30 bg-white rounded-3xl p-5 shadow-xs flex items-start gap-4">
+        <Info className="text-primary shrink-0 mt-1" size={24} />
         <div className="space-y-1">
           <h2 className="text-[17px] font-black text-gray-800">ما نوع المنتج الذي تقوم بإنشائه؟</h2>
           <p className="text-xs text-gray-400 font-bold">نقترح عليك إستخدام لغتك القوية</p>
@@ -75,11 +75,11 @@ export default function Classification() {
       </div>
 
       {/* Warning Box */}
-      <div className="border border-blue-200 bg-white rounded-3xl p-5 shadow-xs flex items-start gap-4">
-        <Info className="text-blue-500 shrink-0 mt-1" size={24} />
+      <div className="border border-primary/30 bg-white rounded-3xl p-5 shadow-xs flex items-start gap-4">
+        <Info className="text-primary shrink-0 mt-1" size={24} />
         <div className="space-y-1">
           <h2 className="text-[17px] font-black text-gray-800">هل عدت لتعديل نوع المنتج الخاص بك؟</h2>
-          <p className="text-[#0ea5e9] text-xs font-bold leading-relaxed">
+          <p className="text-primary text-xs font-bold leading-relaxed">
             لقد تم تخصيص المعلومات التي أدخلتها في الشاشات اللاحقة لنوع المنتج الذي اخترته في الأصل بدلاً من تغيير نوع المنتج، يرجى البدء من جديد وإنشاء منتج جديد.
           </p>
         </div>
@@ -95,7 +95,7 @@ export default function Classification() {
               onClick={() => setSelectedType(opt.id)}
               className={`p-5 px-6 rounded-3xl border transition-all duration-200 flex items-center justify-between cursor-pointer select-none ${
                 isSelected
-                  ? 'border-[#334bb1] bg-[#f9faff]/50 shadow-xs'
+                  ? 'border-[hsl(var(--primary))] bg-primary/5 shadow-xs'
                   : 'border-gray-150 hover:border-gray-200 bg-white'
               }`}
             >
@@ -110,9 +110,9 @@ export default function Classification() {
               {/* Radio Indicator Left */}
               <div className="shrink-0 flex items-center justify-center pl-2">
                 <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
-                  isSelected ? 'border-[#334bb1]' : 'border-gray-300'
+                  isSelected ? 'border-[hsl(var(--primary))]' : 'border-gray-300'
                 }`}>
-                  {isSelected && <div className="w-3 h-3 rounded-full bg-[#334bb1]" />}
+                  {isSelected && <div className="w-3 h-3 rounded-full bg-primary" />}
                 </div>
               </div>
             </div>
@@ -122,9 +122,9 @@ export default function Classification() {
 
       {/* Conditional Sub-options for Trip */}
       {selectedType === 'trip' && (
-        <div className="max-w-4xl border-2 border-dashed border-blue-200 rounded-3xl p-6 bg-[#fcfdff] space-y-6">
-          <div className="flex items-center gap-3 bg-[#e8eefd] px-5 py-2.5 rounded-2xl w-fit">
-            <span className="text-[#334bb1] font-black text-sm flex items-center gap-2">
+        <div className="max-w-4xl border-2 border-dashed border-primary/30 rounded-3xl p-6 bg-card space-y-6">
+          <div className="flex items-center gap-3 bg-primary/10 px-5 py-2.5 rounded-2xl w-fit">
+            <span className="text-primary font-black text-sm flex items-center gap-2">
               🚗 رحلة
             </span>
           </div>
@@ -142,7 +142,7 @@ export default function Classification() {
 
       {/* Action Save Button */}
       <div className="pt-4">
-        <ReusableButton variant="primary">
+        <ReusableButton variant="secondary">
           الحفظ و الإستمرار
         </ReusableButton>
       </div>

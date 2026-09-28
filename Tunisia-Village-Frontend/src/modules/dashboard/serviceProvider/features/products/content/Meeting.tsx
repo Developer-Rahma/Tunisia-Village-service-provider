@@ -77,7 +77,7 @@ export default function Meeting() {
         <span>&gt;</span>
         <span>ب-محتوى المنتج</span>
         <span>&gt;</span>
-        <span className="text-[#334bb1]">1.ب.الاجتماع والاستلام</span>
+        <span className="text-primary">1.ب.الاجتماع والاستلام</span>
       </div>
 
       {step === 1 ? (
@@ -90,13 +90,13 @@ export default function Meeting() {
           </div>
 
           {/* Did You Know Box */}
-          <div className="border border-blue-200 bg-white rounded-3xl p-5 shadow-xs flex items-start gap-4 max-w-4xl">
+          <div className="border border-primary/30 bg-white rounded-3xl p-5 shadow-xs flex items-start gap-4 max-w-4xl">
             <div className="w-10 h-10 bg-amber-50 rounded-2xl flex items-center justify-center shrink-0">
-              <Lightbulb className="text-amber-500 fill-amber-500/20" size={24} />
+              <Lightbulb className="text-primarymber-500 fill-amber-500/20" size={24} />
             </div>
             <div className="space-y-1">
               <h2 className="text-[17px] font-black text-gray-800">هل تعلم؟</h2>
-              <p className="text-xs text-blue-500 font-bold leading-relaxed">
+              <p className="text-xs text-primary font-bold leading-relaxed">
                 يرغب المسافرون في حجز المنتجات ذات مواقع الاستلام الدقيقة حتى يتمكنوا من التخطيط ليومهم. وإضافة نقاط لقاء واستلام محددة ستساعدهم في العثور على منتجك.
               </p>
             </div>
@@ -145,7 +145,7 @@ export default function Meeting() {
                   {/* Option 1: Area Radius */}
                   <label className={`flex items-start gap-3 p-4 rounded-2xl border transition-all cursor-pointer ${
                     hotelInfoChoice === 'radius'
-                      ? 'border-[#334bb1] bg-blue-50/10'
+                      ? 'border-[hsl(var(--primary))] bg-primary/5'
                       : 'border-gray-150 hover:bg-gray-50/50'
                   }`}>
                     <input
@@ -153,7 +153,7 @@ export default function Meeting() {
                       name="hotelInfoChoice"
                       checked={hotelInfoChoice === 'radius'}
                       onChange={() => setHotelInfoChoice('radius')}
-                      className="mt-1 w-4 h-4 text-[#334bb1] border-gray-300 focus:ring-[#334bb1] accent-[#334bb1]"
+                      className="mt-1 w-4 h-4 text-primary border-gray-300 focus:ring-[hsl(var(--primary))] accent-[hsl(var(--primary))]"
                     />
                     <div className="space-y-1">
                       <span className="block font-black text-gray-800 text-sm">
@@ -168,7 +168,7 @@ export default function Meeting() {
                   {/* Option 2: Individual Add */}
                   <label className={`flex items-start gap-3 p-4 rounded-2xl border transition-all cursor-pointer ${
                     hotelInfoChoice === 'individual'
-                      ? 'border-[#334bb1] bg-blue-50/10'
+                      ? 'border-[hsl(var(--primary))] bg-primary/5'
                       : 'border-gray-150 hover:bg-gray-50/50'
                   }`}>
                     <input
@@ -176,7 +176,7 @@ export default function Meeting() {
                       name="hotelInfoChoice"
                       checked={hotelInfoChoice === 'individual'}
                       onChange={() => setHotelInfoChoice('individual')}
-                      className="mt-1 w-4 h-4 text-[#334bb1] border-gray-300 focus:ring-[#334bb1] accent-[#334bb1]"
+                      className="mt-1 w-4 h-4 text-primary border-gray-300 focus:ring-[hsl(var(--primary))] accent-[hsl(var(--primary))]"
                     />
                     <div className="space-y-1">
                       <span className="block font-black text-gray-800 text-sm">
@@ -193,7 +193,10 @@ export default function Meeting() {
 
             {/* Actions */}
             <div className="pt-4 border-t border-gray-100 flex justify-start">
-              <ReusableButton variant="primary" onClick={handleNextStep}>
+              <ReusableButton 
+                variant={selectedLocations.includes('hotel') && hotelInfoChoice === 'radius' ? 'primary' : 'secondary'} 
+                onClick={handleNextStep}
+              >
                 {selectedLocations.includes('hotel') && hotelInfoChoice === 'radius' ? 'التالي' : 'الحفظ و الإستمرار'}
               </ReusableButton>
             </div>
@@ -261,7 +264,7 @@ export default function Meeting() {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="ابحث عن مدينة، حي، أو عنوان..."
-                        className="w-full py-3 pr-4 pl-10 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#334bb1] font-bold text-gray-800 text-right"
+                        className="w-full py-3 pr-4 pl-10 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))] font-bold text-gray-800 text-right"
                       />
                       <Search size={18} className="absolute left-3.5 top-3.5 text-gray-400" />
                     </div>
@@ -279,7 +282,7 @@ export default function Meeting() {
                       {addedRegions.map((region, idx) => (
                         <div key={idx} className="flex items-center justify-between p-2.5 px-3 bg-gray-55 border border-gray-100 rounded-xl text-xs font-bold text-gray-700">
                           <div className="flex items-center gap-2">
-                            <MapPin size={14} className="text-[#334bb1]" />
+                            <MapPin size={14} className="text-primary" />
                             <span>{region} ({activeRadiusLabel})</span>
                           </div>
                           <button
@@ -297,7 +300,7 @@ export default function Meeting() {
 
                 {/* Save and Submit */}
                 <div className="pt-4 border-t border-gray-100 flex gap-3">
-                  <ReusableButton variant="primary" onClick={() => alert('تم حفظ المناطق المحددة بنجاح!')}>
+                  <ReusableButton variant="secondary" onClick={() => alert('تم حفظ المناطق المحددة بنجاح!')}>
                     الحفظ و الإستمرار
                   </ReusableButton>
                   <ReusableButton variant="outline" onClick={() => setStep(1)}>
@@ -307,7 +310,7 @@ export default function Meeting() {
               </div>
 
               {/* Right Column: Premium Mock Map (7 cols) */}
-              <div className="lg:col-span-7 bg-[#eaefff] border border-blue-100 rounded-3xl shadow-xs overflow-hidden relative min-h-[380px] lg:min-h-[460px] flex items-center justify-center">
+              <div className="lg:col-span-7 bg-primary/5 border border-primary/20 rounded-3xl shadow-xs overflow-hidden relative min-h-[380px] lg:min-h-[460px] flex items-center justify-center">
                 {/* Mock Map Background Canvas */}
                 <div className="absolute inset-0 bg-cover bg-center opacity-60" style={{ backgroundImage: 'url("https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/30.84,29.31,10,0/800x600?access_token=mock")' }}>
                   {/* Simple illustrative fallback pattern if URL doesn't load */}
@@ -315,7 +318,7 @@ export default function Meeting() {
                     <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0 opacity-20">
                       <defs>
                         <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#334bb1" strokeWidth="0.5" />
+                          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" />
                         </pattern>
                       </defs>
                       <rect width="100%" height="100%" fill="url(#grid)" />
@@ -348,12 +351,12 @@ export default function Meeting() {
                     width: getCircleRadius(),
                     height: getCircleRadius(),
                     borderRadius: '50%',
-                    backgroundColor: 'rgba(51, 75, 177, 0.12)',
-                    border: '2px solid rgba(51, 75, 177, 0.4)'
+                    backgroundColor: 'hsla(var(--primary) / 0.12)',
+                    border: '2px solid hsla(var(--primary) / 0.4)'
                   }}
                 >
-                  <div className="w-4 h-4 bg-[#334bb1] border-2 border-white rounded-full shadow-md animate-bounce relative z-30" />
-                  <div className="absolute w-2 h-2 bg-[#334bb1]/30 rounded-full animate-ping" />
+                  <div className="w-4 h-4 bg-primary border-2 border-white rounded-full shadow-md animate-bounce relative z-30" />
+                  <div className="absolute w-2 h-2 bg-primary/30 rounded-full animate-ping" />
                   
                   {/* Tooltip */}
                   <div className="absolute -bottom-8 bg-slate-900 text-white text-[10px] font-black py-0.5 px-2 rounded-md shadow-md whitespace-nowrap">

@@ -5,8 +5,7 @@ import "./globals.css";
 import { IBM_Plex_Sans_Arabic } from 'next/font/google';
 import Script from "next/script";
 import QueryProvider from "@/src/providers/query-provider";
-
-
+import { ThemeProvider } from "@/src/providers/theme-provider";
 
 const ibmArabic = IBM_Plex_Sans_Arabic({
   subsets: ["arabic"],
@@ -30,11 +29,17 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <body className={` ${ibmArabic.className} antialiased overflow-x-hidden`}>
-        <QueryProvider>
-          {children}
-        </QueryProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="theme-village"
+          enableSystem={false}
+        >
+          <QueryProvider>
+            {children}
+          </QueryProvider>
+        </ThemeProvider>
         <Script
           src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"
           strategy="lazyOnload"
@@ -43,3 +48,4 @@ export default function RootLayout({
     </html>
   );
 }
+

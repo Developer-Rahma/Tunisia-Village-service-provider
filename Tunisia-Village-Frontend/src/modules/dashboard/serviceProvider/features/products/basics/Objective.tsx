@@ -23,7 +23,7 @@ export default function Objective() {
         <span>&gt;</span>
         <span>أ-الأساسيات</span>
         <span>&gt;</span>
-        <span className="text-[#334bb1]">3.أ.السمة</span>
+        <span className="text-primary">3.أ.السمة</span>
       </div>
 
       {/* Main Form Fields */}
@@ -32,7 +32,7 @@ export default function Objective() {
           <h2 className="text-[17px] font-black text-gray-800 leading-normal">
             -إختر أكثر من 3 سمات تصف هذا المنتج على الوجه الأفضل!
           </h2>
-          <p className="text-xs text-[#0ea5e9] font-bold">
+          <p className="text-xs text-primary font-bold">
             قم بزيادة ظهورك في عمليات البحث عن السفر من خلال تحديد جميع الموضوعات الثلاثة
           </p>
         </div>
@@ -51,7 +51,7 @@ export default function Objective() {
 
         {/* Save Button */}
         <div className="pt-6">
-          <ReusableButton variant="primary">
+          <ReusableButton variant="secondary">
             الحفظ و الإستمرار
           </ReusableButton>
         </div>

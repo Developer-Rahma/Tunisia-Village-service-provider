@@ -27,9 +27,9 @@ export const AccommodationFilters: React.FC<AccommodationFiltersProps> = ({
         {ACCOMMODATION_TYPES.map((type) => (
           <button
             key={type.id}
-            className={`py-2 px-[18px] border-[1.5px] rounded-[var(--radius-full)] font-[var(--font-primary)] text-sm font-medium cursor-pointer transition-all duration-200 whitespace-nowrap
+            className={`py-2 px-[18px] border-[1.5px] rounded-full text-sm font-medium cursor-pointer transition-all duration-200 whitespace-nowrap
                ${activeType === type.id ?
-                'text-white bg-[var(--color-accent)] border-[var(--color-accent)]  font-semibold' : 'bg-[#FF9149] hover:bg-white text-white hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]'}`}
+                'text-primary-foreground bg-accent border-accent font-semibold shadow-sm shadow-accent/20' : 'bg-accent hover:bg-card text-primary-foreground hover:border-primary hover:text-primary'}`}
             onClick={() => handleTypeChange(type.id)}
           >
             {type.label}
@@ -38,9 +38,9 @@ export const AccommodationFilters: React.FC<AccommodationFiltersProps> = ({
       </div>
 
       <div className="flex flex-col gap-2 min-w-[160px]">
-        <span className="text-[13px] font-semibold text-[var(--color-text-muted)]">السعر</span>
+        <span className="text-[13px] font-semibold text-muted-foreground">السعر</span>
         <div className="flex items-center gap-2">
-          <span className="text-[13px] font-semibold text-[#FF9149]">٢٠٠</span>
+          <span className="text-[13px] font-semibold text-accent">٢٠٠</span>
           <input
             type="range"
             min="200"
@@ -49,10 +49,10 @@ export const AccommodationFilters: React.FC<AccommodationFiltersProps> = ({
             onChange={(e) => setMaxPrice(Number(e.target.value))}
             className="w-[120px] h-1 rounded-sm appearance-none outline-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[var(--color-primary)] [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-[0_2px_4px_rgba(0,0,0,0.2)]"
             style={{
-              background: `linear-gradient(to left, #FF9149 0%, var(--color-primary) ${((maxPrice - 200) / 800) * 100}%, #e5e7eb ${((maxPrice - 200) / 800) * 100}%)`
+              background: `linear-gradient(to left, hsl(var(--accent)) 0%, hsl(var(--primary)) ${((maxPrice - 200) / 800) * 100}%, hsl(var(--border)) ${((maxPrice - 200) / 800) * 100}%)`
             }}
           />
-          <span className="text-[13px] font-semibold text-[var(--color-primary)]">{maxPrice}</span>
+          <span className="text-[13px] font-semibold text-primary">{maxPrice}</span>
         </div>
       </div>
 
