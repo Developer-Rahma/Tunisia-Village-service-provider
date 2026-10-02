@@ -12,10 +12,16 @@ interface Attraction {
   admission: 'yes' | 'no' | 'free';
 }
 
+interface Activity {
+  destination: string;
+  details: string;
+}
+
 interface Day {
   id: number;
   title: string;
   attractions: Attraction[];
+  activities: Activity[];
   meals: string[];
   accommodations: string[];
 }
@@ -35,6 +41,7 @@ export default function TourDetails() {
           admission: 'free'
         }
       ],
+      activities: [],
       meals: ['غداء ريفي تقليدي'],
       accommodations: ['مخيم وادي الريان']
     },
@@ -42,6 +49,7 @@ export default function TourDetails() {
       id: 2,
       title: 'رحلة جبل المدورة والبحيرة السحرية',
       attractions: [],
+      activities: [],
       meals: [],
       accommodations: []
     }
@@ -72,6 +80,13 @@ export default function TourDetails() {
   const [accommodationName, setAccommodationName] = useState('');
   const [accommodationType, setAccommodationType] = useState('فندق');
 
+  // Activity destination and details dialogs
+  const [isDestinationModalOpen, setIsDestinationModalOpen] = useState(false);
+  const [isActivityDetailsModalOpen, setIsActivityDetailsModalOpen] = useState(false);
+  const [activityDestination, setActivityDestination] = useState('');
+  const [activitySummary, setActivitySummary] = useState('');
+  const [activityDetails, setActivityDetails] = useState('');
+
   // Accordion Toggle
   const toggleDay = (id: number) => {
     setExpandedDays(prev => ({ ...prev, [id]: !prev[id] }));
@@ -93,6 +108,7 @@ export default function TourDetails() {
       id: newId,
       title: '',
       attractions: [],
+      activities: [],
       meals: [],
       accommodations: []
     };
@@ -159,6 +175,43 @@ export default function TourDetails() {
       }
       return d;
     }));
+  };
+
+  const openDestinationModal = (dayId: number) => {
+    setActiveDayId(dayId);
+    setActivityDestination('');
+    setActivitySummary('');
+    setActivityDetails('');
+    setIsDestinationModalOpen(true);
+  };
+
+  const handleDestinationSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!activityDestination.trim()) return;
+    setIsDestinationModalOpen(false);
+    setIsActivityDetailsModalOpen(true);
+  };
+
+  const saveActivity = (details: string) => {
+    if (activeDayId === null || !activityDestination.trim()) return;
+    setDays((currentDays) => currentDays.map((day) => day.id === activeDayId
+      ? { ...day, activities: [...day.activities, { destination: activityDestination.trim(), details }] }
+      : day));
+    setIsDestinationModalOpen(false);
+    setIsActivityDetailsModalOpen(false);
+  };
+
+  const handleActivityDetailsSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    saveActivity([activitySummary.trim(), activityDetails.trim()].filter(Boolean).join('\n\n'));
+  };
+
+  const handleSkipActivityDetails = () => saveActivity(activitySummary.trim());
+
+  const handleRemoveActivity = (dayId: number, index: number) => {
+    setDays((currentDays) => currentDays.map((day) => day.id === dayId
+      ? { ...day, activities: day.activities.filter((_, activityIndex) => activityIndex !== index) }
+      : day));
   };
 
   // Meal Add Actions
@@ -234,6 +287,10 @@ export default function TourDetails() {
 
   return (
     <div className="space-y-8 text-right animate-in fade-in duration-300 relative" dir="rtl">
+      <div className="flex max-w-4xl items-center gap-3 border-b border-border px-4 pb-3 pt-2" dir="ltr">
+        <span className="text-xs font-bold text-primary">40%</span>
+        <div className="h-1 flex-1 overflow-hidden rounded-full bg-muted"><div className="h-full w-2/5 rounded-full bg-primary" /></div>
+      </div>
       {/* Header Breadcrumbs */}
       <div className="text-sm font-bold text-gray-400 flex items-center gap-1.5 justify-start">
         <span>المنتجات</span>
@@ -271,8 +328,8 @@ export default function TourDetails() {
                 className="p-5 px-6 bg-slate-50/30 border-b border-slate-50 flex items-center justify-between cursor-pointer select-none"
               >
                 <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 bg-amber-50 rounded-2xl flex items-center justify-center text-primarymber-500 shadow-2xs">
-                    <Sun size={20} className="fill-amber-500/10 animate-spin-slow" />
+                  <div className="w-10 h-10 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shadow-2xs">
+                    <Sun size={20} className="fill-primary/10" />
                   </div>
                   <div className="space-y-0.5">
                     <span className="block font-black text-gray-800 text-[16px]">
@@ -315,7 +372,7 @@ export default function TourDetails() {
                   </div>
 
                   {/* Program sections */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 pt-2">
                     {/* Section 1: Attractions / Program */}
                     <div className="space-y-4 border-l md:border-l border-dashed border-gray-150 pl-0 md:pl-6 last:border-l-0">
                       <div className="flex items-center justify-between">
@@ -341,7 +398,7 @@ export default function TourDetails() {
                                 {attr.duration} دقيقة
                               </span>
                               {attr.passBy && (
-                                <span className="bg-amber-50 text-primarymber-600 px-1.5 py-0.5 rounded-md">
+                                <span className="bg-primary/10 text-primary px-1.5 py-0.5 rounded-md">
                                   مرور سريع
                                 </span>
                               )}
@@ -356,6 +413,27 @@ export default function TourDetails() {
                       >
                         <Plus size={14} />
                         <span>أضف عامل جذب</span>
+                      </button>
+                    </div>
+
+                    {/* Section 2: Activities and visits */}
+                    <div className="space-y-4 border-l md:border-l border-dashed border-gray-150 pl-0 md:pl-6 last:border-l-0">
+                      <span className="font-black text-gray-800 text-sm flex items-center gap-1.5">
+                        <Star size={15} className="text-primary" /> الأنشطة والزيارات
+                      </span>
+                      <div className="space-y-2">
+                        {day.activities.map((activity, activityIndex) => (
+                          <div key={`${activity.destination}-${activityIndex}`} className="group relative rounded-xl border border-border bg-muted/50 p-3">
+                            <button type="button" onClick={() => handleRemoveActivity(day.id, activityIndex)} className="absolute left-2 top-2 rounded-md p-1 text-muted-foreground opacity-0 transition-opacity hover:bg-white hover:text-destructive group-hover:opacity-100" aria-label={`حذف ${activity.destination}`}>
+                              <X size={13} />
+                            </button>
+                            <span className="block pe-6 text-sm font-bold text-primary">{activity.destination}</span>
+                            {activity.details && <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-muted-foreground">{activity.details}</p>}
+                          </div>
+                        ))}
+                      </div>
+                      <button type="button" onClick={() => openDestinationModal(day.id)} className="flex w-full items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-primary/30 py-3 text-xs font-black text-primary transition-colors hover:bg-primary/5">
+                        <Plus size={14} /> أضف وجهة
                       </button>
                     </div>
 
@@ -440,6 +518,62 @@ export default function TourDetails() {
           الحفظ و الإستمرار
         </ReusableButton>
       </div>
+
+      {/* Add destination dialog */}
+      {isDestinationModalOpen && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-foreground/40 p-4 backdrop-blur-[1px]" role="dialog" aria-modal="true" aria-labelledby="destination-modal-title">
+          <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-white shadow-2xl">
+            <div className="flex items-center justify-between border-b border-border px-5 py-4">
+              <h2 id="destination-modal-title" className="text-lg font-bold text-foreground">إضافة وجهة</h2>
+              <button type="button" onClick={() => setIsDestinationModalOpen(false)} className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground" aria-label="إغلاق"><X size={19} /></button>
+            </div>
+            <form onSubmit={handleDestinationSubmit} className="space-y-4 p-5">
+              <div className="space-y-2">
+                <label htmlFor="activity-destination" className="block text-sm font-bold text-foreground">اختر وجهة</label>
+                <div className="relative">
+                  <input id="activity-destination" autoFocus required value={activityDestination} onChange={(event) => setActivityDestination(event.target.value)} placeholder="ابحث عن مكان أو اكتب اسم الوجهة" className="w-full rounded-xl border border-border bg-white py-3 pe-10 ps-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary" />
+                  <Search size={17} className="absolute left-3.5 top-3.5 text-muted-foreground" />
+                </div>
+                <p className="text-xs text-muted-foreground">اكتب اسم المكان الذي ستزوره خلال هذا اليوم.</p>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="activity-summary" className="block text-sm font-bold text-foreground">وصف مختصر للنشاط (اختياري)</label>
+                <textarea id="activity-summary" value={activitySummary} onChange={(event) => setActivitySummary(event.target.value)} maxLength={300} rows={3} placeholder="أضف ملاحظة قصيرة عن الزيارة" className="w-full resize-y rounded-xl border border-border bg-white p-3 text-sm leading-relaxed text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary" />
+                <p className="text-left text-xs text-muted-foreground">{300 - activitySummary.length} حرفاً متبقياً</p>
+              </div>
+
+              <div className="flex flex-col-reverse gap-2 border-t border-border pt-4 sm:flex-row sm:justify-end">
+                <ReusableButton type="button" variant="outline" onClick={handleSkipActivityDetails}>لا، شكراً</ReusableButton>
+                <ReusableButton type="submit">نعم، أضف التفاصيل</ReusableButton>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Activity details dialog */}
+      {isActivityDetailsModalOpen && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-foreground/40 p-4 backdrop-blur-[1px]" role="dialog" aria-modal="true" aria-labelledby="activity-details-title">
+          <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-white shadow-2xl">
+            <div className="flex items-center justify-between border-b border-border px-5 py-4">
+              <div><h2 id="activity-details-title" className="text-lg font-bold text-foreground">تفاصيل النشاط</h2><p className="mt-1 text-sm text-muted-foreground">{activityDestination}</p></div>
+              <button type="button" onClick={() => setIsActivityDetailsModalOpen(false)} className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground" aria-label="إغلاق"><X size={19} /></button>
+            </div>
+            <form onSubmit={handleActivityDetailsSubmit} className="space-y-4 p-5">
+              <div className="space-y-2">
+                <label htmlFor="activity-details" className="block text-sm font-bold text-foreground">صف ما سيشاهده المسافرون ويفعلونه في هذا النشاط.</label>
+                <textarea id="activity-details" autoFocus value={activityDetails} onChange={(event) => setActivityDetails(event.target.value)} maxLength={1000} rows={5} placeholder="اكتب تفاصيل النشاط هنا" className="w-full resize-y rounded-xl border border-border bg-white p-3 text-sm leading-relaxed text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary" />
+                <p className="text-left text-xs text-muted-foreground">{1000 - activityDetails.length} حرفاً متبقياً</p>
+              </div>
+              <div className="flex flex-col-reverse gap-2 border-t border-border pt-4 sm:flex-row sm:justify-end">
+                <ReusableButton type="button" variant="outline" onClick={handleSkipActivityDetails}>لا، شكراً</ReusableButton>
+                <ReusableButton type="submit">نعم، احفظ النشاط</ReusableButton>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* ATTRACTION MODAL (Screen 5) */}
       {isAttractionModalOpen && (

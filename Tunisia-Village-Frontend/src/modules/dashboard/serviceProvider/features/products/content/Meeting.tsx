@@ -1,12 +1,12 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from 'react';
-import { Lightbulb, Info, ChevronDown, MapPin, Search, Plus, Trash2, ArrowRight } from 'lucide-react';
+import { Lightbulb, ChevronDown, MapPin, Search, Plus, Trash2, ArrowRight } from 'lucide-react';
 import ReusableButton from '@/src/shared/components/common/Buttons/ReusableButton';
 import ReusableSelect, { SelectOption } from '@/src/shared/components/common/Selection/ReusableSelect';
 
 export default function Meeting() {
-  const [step, setStep] = useState<1 | 2>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 
   // Form State
   const [meetingType, setMeetingType] = useState<string>('meeting_point');
@@ -18,25 +18,29 @@ export default function Meeting() {
   const [radius, setRadius] = useState('1km');
   const [addedRegions, setAddedRegions] = useState<string[]>(['الفيوم (Faiyum)']);
   const [isRadiusDropdownOpen, setIsRadiusDropdownOpen] = useState(false);
+  const [isHotelPickerOpen, setIsHotelPickerOpen] = useState(false);
+  const [individualLocations, setIndividualLocations] = useState<Array<{ name: string; category: string }>>([]);
+  const [finalLocationName, setFinalLocationName] = useState('');
+  const [finalPointName, setFinalPointName] = useState('');
+  const [tourEndsAtMeetingPoint, setTourEndsAtMeetingPoint] = useState(true);
+  const [individualCategory, setIndividualCategory] = useState('hotel');
 
   const meetingTypeOptions: SelectOption[] = [
     { value: 'meeting_point', label: 'نقابل جميع المسافرين في نقطة تجمع محددة' },
-    { value: 'hotel_pickup', label: 'نقوم باستلام المسافرين من فندقهم/أماكن إقامتهم' }
+    { value: 'hotel_pickup', label: 'نستلم المسافرين من الفنادق أو أماكن إقامتهم' }
   ];
 
   const locationOptions: SelectOption[] = [
     { value: 'hotel', label: 'فندق', starred: true },
     { value: 'sea_port', label: 'ميناء بحري', starred: true },
-    { value: 'airport', label: 'ميناء جوي' },
+    { value: 'airport', label: 'مطار' },
     { value: 'other', label: 'أخرى' }
   ];
-
   const radiusOptions = [
-    { value: '1km', label: 'قطر 1 كم' },
-    { value: '2miles', label: 'قطر 2 ميل' },
-    { value: '100m', label: 'قطر 100 م' }
+    { value: '1km', label: 'نصف قطر 1 كم' },
+    { value: '2miles', label: 'نصف قطر 2 ميل' },
+    { value: '100m', label: 'نصف قطر 100 م' }
   ];
-
   const handleAddRegion = () => {
     if (searchQuery.trim()) {
       setAddedRegions([...addedRegions, searchQuery.trim()]);
@@ -49,7 +53,7 @@ export default function Meeting() {
   };
 
   // Get current active radius label
-  const activeRadiusLabel = radiusOptions.find(opt => opt.value === radius)?.label || 'قطر 1 كم';
+  const activeRadiusLabel = radiusOptions.find((option) => option.value === radius)?.label || 'نصف قطر 1 كم';
 
   // Determine size of the animated map circle based on selected radius
   const getCircleRadius = () => {
@@ -62,17 +66,18 @@ export default function Meeting() {
   };
 
   const handleNextStep = () => {
-    if (selectedLocations.includes('hotel') && hotelInfoChoice === 'radius') {
-      setStep(2);
+    if (selectedLocations.includes('hotel')) {
+      setStep(hotelInfoChoice === 'radius' ? 2 : 3);
     } else {
       alert('تم حفظ البيانات بنجاح!');
     }
   };
 
   return (
-    <div className="space-y-8 text-right animate-in fade-in duration-300" dir="rtl">
+    <div className="min-h-full space-y-0 rounded-2xl bg-white text-right animate-in fade-in duration-300" dir="rtl">
+      <div className="border-b border-border px-6 pb-3 pt-4"><div className="mx-auto flex max-w-4xl items-center gap-3" dir="ltr"><span className="text-sm font-bold text-primary">{step === 1 ? '40%' : step === 4 ? '80%' : '60%'}</span><div className="h-1 flex-1 overflow-hidden rounded-full bg-muted"><div className={`h-full rounded-full bg-primary ${step === 1 ? 'w-2/5' : step === 4 ? 'w-4/5' : 'w-3/5'}`} /></div></div></div>
       {/* Header Breadcrumbs */}
-      <div className="text-sm font-bold text-gray-400 flex items-center gap-1.5 justify-start">
+      <div className="hidden text-lg font-bold text-gray-400 items-center gap-1.5 justify-start">
         <span>المنتجات</span>
         <span>&gt;</span>
         <span>ب-محتوى المنتج</span>
@@ -83,126 +88,50 @@ export default function Meeting() {
       {step === 1 ? (
         <>
           {/* Main Title */}
-          <div className="bg-slate-50/50 p-4 py-6 rounded-2xl text-center max-w-xl mx-auto border border-slate-100">
-            <h1 className="text-xl md:text-2xl font-black text-gray-800">
+          <div className="mx-auto my-5 w-fit rounded-lg bg-muted px-5 py-3 text-center">
+            <h1 className="text-xl font-extrabold text-primary md:text-2xl">
               أخبرنا كيف وأين تلتقي بمسافريك
             </h1>
           </div>
-
           {/* Did You Know Box */}
-          <div className="border border-primary/30 bg-white rounded-3xl p-5 shadow-xs flex items-start gap-4 max-w-4xl">
-            <div className="w-10 h-10 bg-amber-50 rounded-2xl flex items-center justify-center shrink-0">
-              <Lightbulb className="text-primarymber-500 fill-amber-500/20" size={24} />
-            </div>
+          <div className="mx-auto flex max-w-5xl items-start gap-3 rounded-lg border border-primary/40 bg-white px-4 py-3 shadow-sm">
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center"><Lightbulb className="text-primary" size={20} /></div>
             <div className="space-y-1">
-              <h2 className="text-[17px] font-black text-gray-800">هل تعلم؟</h2>
-              <p className="text-xs text-primary font-bold leading-relaxed">
-                يرغب المسافرون في حجز المنتجات ذات مواقع الاستلام الدقيقة حتى يتمكنوا من التخطيط ليومهم. وإضافة نقاط لقاء واستلام محددة ستساعدهم في العثور على منتجك.
-              </p>
+              <h2 className="text-base font-bold text-primary">هل تعلم؟</h2>
+              <p className="text-sm font-medium leading-relaxed text-foreground">يرغب المسافرون في معرفة مواقع الاستلام بدقة حتى يتمكنوا من التخطيط ليومهم. إضافة نقاط لقاء واستلام محددة تساعدهم في العثور على منتجك.</p>
             </div>
           </div>
-
           {/* Form Content */}
-          <div className="space-y-8 max-w-4xl bg-white border border-gray-150 rounded-3xl p-6 md:p-8 shadow-xs">
-            {/* Section 1: How do you meet your travelers */}
-            <div className="space-y-3">
-              <label className="block text-[15px] font-black text-gray-800">
-                -كيف تقابل مسافريك؟
-              </label>
-              <ReusableSelect
-                placeholder="إختر..."
-                options={meetingTypeOptions}
-                selectedValues={[meetingType]}
-                onChange={(vals) => setMeetingType(vals[0] || 'meeting_point')}
-                multiple={false}
-                starredOptionSupport={false}
-              />
+          <div className="mx-auto max-w-5xl space-y-5 bg-white px-4 py-5 md:px-8">
+            <div className="ml-auto w-full max-w-xl space-y-3">
+              <label className="block text-base font-bold text-primary">كيف تقابل مسافريك؟</label>
+              <ReusableSelect placeholder="اختر طريقة اللقاء" options={meetingTypeOptions} selectedValues={[meetingType]} onChange={(values) => setMeetingType(values[0] || 'meeting_point')} multiple={false} starredOptionSupport={false} compact identityColor />
             </div>
-
-            {/* Section 2: Where do you pick up travelers */}
-            <div className="space-y-3">
-              <label className="block text-[15px] font-black text-gray-800">
-                -أين تقوم بإستقبال مسافريك؟
-              </label>
-              <ReusableSelect
-                placeholder="مكان إستقبال المسافرين"
-                options={locationOptions}
-                selectedValues={selectedLocations}
-                onChange={setSelectedLocations}
-                multiple={true}
-                starredOptionSupport={true}
-              />
+            <div className="ml-auto w-full max-w-xl space-y-3">
+              <label className="block text-base font-bold text-primary">أين تقوم باستقبال مسافريك؟</label>
+              <ReusableSelect placeholder="مكان استقبال المسافرين" options={locationOptions} selectedValues={selectedLocations} onChange={setSelectedLocations} multiple starredOptionSupport compact identityColor showSelectedTags={false} />
             </div>
-
-            {/* Conditional Hotel pickup settings */}
+            {/* Hotel pickup preferences */}
             {selectedLocations.includes('hotel') && (
-              <div className="border-t border-gray-100 pt-6 space-y-4 animate-in slide-in-from-top duration-300">
-                <label className="block text-[15px] font-black text-gray-800">
-                  -هل تريد إدخال معلومات اختيار الفندق الخاص بك؟
-                </label>
-                
-                <div className="space-y-3 max-w-3xl">
-                  {/* Option 1: Area Radius */}
-                  <label className={`flex items-start gap-3 p-4 rounded-2xl border transition-all cursor-pointer ${
-                    hotelInfoChoice === 'radius'
-                      ? 'border-[hsl(var(--primary))] bg-primary/5'
-                      : 'border-gray-150 hover:bg-gray-50/50'
-                  }`}>
-                    <input
-                      type="radio"
-                      name="hotelInfoChoice"
-                      checked={hotelInfoChoice === 'radius'}
-                      onChange={() => setHotelInfoChoice('radius')}
-                      className="mt-1 w-4 h-4 text-primary border-gray-300 focus:ring-[hsl(var(--primary))] accent-[hsl(var(--primary))]"
-                    />
-                    <div className="space-y-1">
-                      <span className="block font-black text-gray-800 text-sm">
-                        أريد تحديد منطقة عامة للفنادق التي سأستقبل منها
-                      </span>
-                      <span className="block text-xs text-gray-400 font-bold leading-normal">
-                        سأختار دائرة نصف قطرها في مدينة أو حي أو عنوان محدد وأستقبل من داخل تلك الدائرة
-                      </span>
-                    </div>
+              <div className="mx-auto w-full max-w-5xl space-y-4 border-t border-border pt-5 animate-in slide-in-from-top duration-300">
+                <h2 className="text-lg font-bold text-foreground">هل تريد إدخال معلومات اختيار الفندق الخاص بك؟</h2>
+                <div className="grid gap-3 md:grid-cols-2">
+                  <label className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors ${hotelInfoChoice === 'radius' ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted'}`}>
+                    <input type="radio" name="hotelInfoChoice" checked={hotelInfoChoice === 'radius'} onChange={() => { setHotelInfoChoice('radius'); setStep(2); }} className="mt-1 h-4 w-4 accent-[hsl(var(--primary))]" />
+                    <span className="text-base font-medium leading-relaxed text-foreground">أريد تحديد منطقة عامة للفنادق التي سأستقبل منها، سأختار دائرة نصف قطرها في مدينة أو حي أو عنوان محدد وأستقبل من داخل تلك الدائرة</span>
                   </label>
-
-                  {/* Option 2: Individual Add */}
-                  <label className={`flex items-start gap-3 p-4 rounded-2xl border transition-all cursor-pointer ${
-                    hotelInfoChoice === 'individual'
-                      ? 'border-[hsl(var(--primary))] bg-primary/5'
-                      : 'border-gray-150 hover:bg-gray-50/50'
-                  }`}>
-                    <input
-                      type="radio"
-                      name="hotelInfoChoice"
-                      checked={hotelInfoChoice === 'individual'}
-                      onChange={() => setHotelInfoChoice('individual')}
-                      className="mt-1 w-4 h-4 text-primary border-gray-300 focus:ring-[hsl(var(--primary))] accent-[hsl(var(--primary))]"
-                    />
-                    <div className="space-y-1">
-                      <span className="block font-black text-gray-800 text-sm">
-                        أريد إضافة المواقع واحدة تلو الأخرى
-                      </span>
-                      <span className="block text-xs text-gray-400 font-bold leading-normal">
-                        وسأضيف الفنادق بشكل فردي
-                      </span>
-                    </div>
+                  <label className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors ${hotelInfoChoice === 'individual' ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted'}`}>
+                    <input type="radio" name="hotelInfoChoice" checked={hotelInfoChoice === 'individual'} onChange={() => { setHotelInfoChoice('individual'); setStep(3); }} className="mt-1 h-4 w-4 accent-[hsl(var(--primary))]" />
+                    <span className="text-base font-medium leading-relaxed text-foreground">أريد إضافة المواقع واحدة تلو الأخرى، وسأضيف الفنادق بشكل فردي.</span>
                   </label>
                 </div>
               </div>
             )}
-
             {/* Actions */}
-            <div className="pt-4 border-t border-gray-100 flex justify-start">
-              <ReusableButton 
-                variant={selectedLocations.includes('hotel') && hotelInfoChoice === 'radius' ? 'primary' : 'secondary'} 
-                onClick={handleNextStep}
-              >
-                {selectedLocations.includes('hotel') && hotelInfoChoice === 'radius' ? 'التالي' : 'الحفظ و الإستمرار'}
-              </ReusableButton>
-            </div>
+            {!selectedLocations.includes('hotel') && <div className="flex justify-start border-t border-border pt-4"><ReusableButton onClick={handleNextStep}>حفظ والاستمرار</ReusableButton></div>}
           </div>
         </>
-      ) : (
+      ) : step === 2 ? (
         <>
           {/* Step 2: Map radius config */}
           <div className="space-y-6 max-w-5xl">
@@ -223,8 +152,8 @@ export default function Meeting() {
               {/* Left Column: Config Panel (5 cols) */}
               <div className="lg:col-span-5 space-y-6 bg-white border border-gray-150 rounded-3xl p-6 shadow-xs h-fit">
                 {/* Radius Select */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-black text-gray-700">تحديد النطاق (نصف القطر):</label>
+                <div className="space-y-4">
+                  <label className="block text-lg font-black text-gray-700">تحديد النطاق (نصف القطر):</label>
                   <div className="relative">
                     <button
                       type="button"
@@ -244,7 +173,7 @@ export default function Meeting() {
                               setRadius(opt.value);
                               setIsRadiusDropdownOpen(false);
                             }}
-                            className="w-full text-right p-3 hover:bg-gray-50 text-sm font-bold text-gray-700"
+                            className="w-full text-right p-3 hover:bg-gray-50 text-lg font-bold text-gray-700"
                           >
                             {opt.label}
                           </button>
@@ -255,8 +184,8 @@ export default function Meeting() {
                 </div>
 
                 {/* Region Search Input */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-black text-gray-700">قم بالبحث عن المنطقة:</label>
+                <div className="space-y-4">
+                  <label className="block text-lg font-black text-gray-700">قم بالبحث عن المنطقة:</label>
                   <div className="flex gap-2">
                     <div className="relative flex-1">
                       <input
@@ -264,7 +193,7 @@ export default function Meeting() {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="ابحث عن مدينة، حي، أو عنوان..."
-                        className="w-full py-3 pr-4 pl-10 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))] font-bold text-gray-800 text-right"
+                        className="w-full py-3 pr-4 pl-10 bg-white border border-gray-200 rounded-xl text-lg focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))] font-bold text-gray-800 text-right"
                       />
                       <Search size={18} className="absolute left-3.5 top-3.5 text-gray-400" />
                     </div>
@@ -276,9 +205,9 @@ export default function Meeting() {
 
                 {/* Added Regions List */}
                 {addedRegions.length > 0 && (
-                  <div className="space-y-2 pt-2">
+                  <div className="space-y-4 pt-2">
                     <span className="block text-xs font-black text-gray-400">المناطق المحددة الحالية:</span>
-                    <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                    <div className="space-y-4 max-h-40 overflow-y-auto pr-1">
                       {addedRegions.map((region, idx) => (
                         <div key={idx} className="flex items-center justify-between p-2.5 px-3 bg-gray-55 border border-gray-100 rounded-xl text-xs font-bold text-gray-700">
                           <div className="flex items-center gap-2">
@@ -367,7 +296,94 @@ export default function Meeting() {
             </div>
           </div>
         </>
+      ) : step === 3 ? (
+        <section className="mx-auto max-w-5xl space-y-6 px-4 py-6 md:px-8">
+          <div className="flex items-center gap-3">
+            <button type="button" onClick={() => setStep(1)} className="rounded-lg border border-border p-2 text-primary hover:bg-muted" aria-label="رجوع"><ArrowRight size={20} /></button>
+            <div>
+              <h1 className="text-xl font-bold text-primary">إضافة المواقع واحداً تلو الآخر</h1>
+              <p className="mt-1 text-sm text-muted-foreground">أضف الفنادق ومواقع الاستقبال التي تريد استقبال المسافرين منها.</p>
+            </div>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <section className="space-y-4 rounded-xl border border-border bg-white p-5">
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="text-lg font-bold text-foreground">الفنادق</h2>
+                <button type="button" onClick={() => setIsHotelPickerOpen(true)} className="inline-flex items-center gap-2 rounded-lg border border-primary px-3 py-2 text-sm font-bold text-primary hover:bg-primary/5"><Plus size={16} />اختر الفنادق</button>
+              </div>
+              {individualLocations.some((place) => place.category === 'hotel') ? <ul className="space-y-2">{individualLocations.filter((place) => place.category === 'hotel').map((place) => <li key={`${place.category}-${place.name}`} className="flex items-center justify-between rounded-lg bg-muted px-3 py-2 text-sm"><span>{place.name}</span><button type="button" onClick={() => setIndividualLocations(individualLocations.filter((item) => item.name !== place.name))} className="text-muted-foreground hover:text-destructive" aria-label={`حذف ${place.name}`}><Trash2 size={16} /></button></li>)}</ul> : <p className="text-sm text-muted-foreground">لم تتم إضافة فنادق بعد.</p>}
+              <button type="button" onClick={() => { setIndividualCategory('hotel'); setFinalLocationName(''); setStep(4); }} className="inline-flex items-center gap-2 text-sm font-bold text-primary"><Plus size={16} />أضف موقعاً على الخريطة</button>
+            </section>
+
+            {[
+              { id: 'sea_port', label: 'الموانئ البحرية' },
+              { id: 'airport', label: 'المطارات' },
+              { id: 'other', label: 'مواقع أخرى' },
+            ].map((category) => (
+              <section key={category.id} className="flex items-center justify-between gap-3 rounded-xl border border-border bg-white p-5">
+                <div><h2 className="text-lg font-bold text-foreground">{category.label}</h2><p className="mt-1 text-sm text-muted-foreground">أضف نقطة استقبال على الخريطة.</p>{individualLocations.filter((place) => place.category === category.id).map((place) => <span key={place.name} className="mt-2 block text-sm text-foreground"><MapPin size={14} className="me-1 inline text-primary" />{place.name}</span>)}</div>
+                <button type="button" onClick={() => { setIndividualCategory(category.id); setFinalLocationName(''); setStep(4); }} className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-primary px-3 py-2 text-sm font-bold text-primary hover:bg-primary/5"><Plus size={16} />أضف موقعاً</button>
+              </section>
+            ))}
+          </div>
+
+          <section className="space-y-5 border-t border-border pt-5">
+            <fieldset className="space-y-3">
+              <legend className="text-base font-bold text-primary">هل تنتهي هذه الجولة عند نقطة/نقاط اللقاء؟</legend>
+              <div className="flex flex-wrap gap-5">
+                <label className="inline-flex cursor-pointer items-center gap-2 text-base text-foreground"><input type="radio" name="tourEndsAtMeetingPoint" checked={tourEndsAtMeetingPoint} onChange={() => setTourEndsAtMeetingPoint(true)} className="h-4 w-4 accent-[hsl(var(--primary))]" />نعم</label>
+                <label className="inline-flex cursor-pointer items-center gap-2 text-base text-foreground"><input type="radio" name="tourEndsAtMeetingPoint" checked={!tourEndsAtMeetingPoint} onChange={() => setTourEndsAtMeetingPoint(false)} className="h-4 w-4 accent-[hsl(var(--primary))]" />لا</label>
+              </div>
+            </fieldset>
+
+            {!tourEndsAtMeetingPoint && (
+              <div className="space-y-4 rounded-xl border border-border p-4 md:p-5">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <h2 className="text-lg font-bold text-primary">نقطة النهاية</h2>
+                    <p className="mt-1 text-sm text-muted-foreground">{finalPointName || 'ابحث عن نقطة النهاية على الخريطة.'}</p>
+                  </div>
+                </div>
+                <label className="block space-y-2">
+                  <span className="text-base font-medium text-foreground">ابحث عن نقطة النهاية</span>
+                  <span className="relative block"><Search className="absolute right-3 top-3.5 text-muted-foreground" size={18} /><input value={finalLocationName} onChange={(event) => setFinalLocationName(event.target.value)} placeholder="ابحث عن فندق أو شارع أو عنوان" className="w-full rounded-lg border border-border py-3 pe-10 ps-4 text-base focus:outline-none focus:ring-2 focus:ring-primary" /></span>
+                </label>
+                <p className="text-sm text-muted-foreground">ابحث عن موقعك أو حدده على الخريطة، ويمكنك تحريك المؤشر لتعديل الموقع.</p>
+                <button type="button" onClick={() => setStep(4)} className="inline-flex items-center gap-2 rounded-lg border border-primary px-3 py-2 text-sm font-bold text-primary hover:bg-primary/5"><Plus size={17} />أضف نقطة نهائية</button>
+                <div className="relative h-64 overflow-hidden rounded-lg border border-border bg-muted">
+                  <iframe title="خريطة نقطة النهاية" src="https://www.google.com/maps?q=Faiyum,Egypt&output=embed" className="h-full w-full border-0" loading="lazy" />
+                  <MapPin className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full fill-primary text-primary" size={32} />
+                </div>
+              </div>
+            )}
+          </section>
+
+          <div className="flex justify-start border-t border-border pt-4"><ReusableButton onClick={() => alert('تم حفظ البيانات بنجاح!')}>حفظ والاستمرار</ReusableButton></div>
+
+          {isHotelPickerOpen && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-foreground/40 p-4" role="dialog" aria-modal="true" aria-labelledby="hotel-picker-title">
+              <div className="w-full max-w-xl space-y-5 rounded-xl bg-white p-6 shadow-2xl">
+                <div className="text-center"><h2 id="hotel-picker-title" className="text-xl font-bold text-foreground">إدارة قائمة الفنادق</h2><p className="mt-1 text-sm text-muted-foreground">اختر الفنادق التي تستقبل منها المسافرين.</p></div>
+                <div className="space-y-2">{['فندق النيل', 'فندق القاهرة', 'فندق الأهرامات', 'فندق المعادي', 'فندق الجيزة', 'فندق وسط البلد'].map((hotel) => <label key={hotel} className="flex cursor-pointer items-center justify-between rounded-lg border border-border px-4 py-3 text-base hover:bg-muted"><span>{hotel}</span><input type="checkbox" checked={individualLocations.some((place) => place.name === hotel)} onChange={() => setIndividualLocations((current) => current.some((place) => place.name === hotel) ? current.filter((place) => place.name !== hotel) : [...current, { name: hotel, category: 'hotel' }])} className="h-4 w-4 accent-[hsl(var(--primary))]" /></label>)}</div>
+                <div className="flex justify-end gap-3"><ReusableButton variant="outline" onClick={() => setIsHotelPickerOpen(false)}>إلغاء</ReusableButton><ReusableButton onClick={() => setIsHotelPickerOpen(false)}>تم</ReusableButton></div>
+              </div>
+            </div>
+          )}
+        </section>
+      ) : (
+        <section className="mx-auto max-w-5xl space-y-5 px-4 py-6 md:px-8">
+          <div className="flex items-center gap-3"><button type="button" onClick={() => setStep(3)} className="rounded-lg border border-border p-2 text-primary hover:bg-muted" aria-label="رجوع"><ArrowRight size={20} /></button><h1 className="text-xl font-bold text-primary">نقطة الاستقبال النهائية</h1></div>
+          <label className="block space-y-2"><span className="text-base font-bold text-foreground">ابحث عن نقطة الاستقبال</span><span className="relative block"><Search className="absolute right-3 top-3.5 text-muted-foreground" size={18} /><input value={finalLocationName} onChange={(event) => setFinalLocationName(event.target.value)} placeholder="ابحث عن فندق أو شارع أو عنوان" className="w-full rounded-lg border border-border py-3 pe-10 ps-4 text-base focus:outline-none focus:ring-2 focus:ring-primary" /></span></label>
+          <p className="text-sm text-muted-foreground">حرّك الخريطة للتحقق من الموقع، ثم أدخل اسماً واضحاً لنقطة الاستقبال.</p>
+          <div className="relative h-[420px] overflow-hidden rounded-xl border border-border bg-muted"><iframe title="خريطة نقطة الاستقبال في الفيوم" src="https://www.google.com/maps?q=Faiyum,Egypt&output=embed" className="h-full w-full border-0" loading="lazy" /><MapPin className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full fill-primary text-primary" size={34} /></div>
+          <div className="flex justify-start"><ReusableButton onClick={() => { if (finalLocationName.trim()) setFinalPointName(finalLocationName.trim()); setStep(3); }}>حفظ والاستمرار</ReusableButton></div>
+        </section>
       )}
     </div>
   );
 }
+
+
+
+
